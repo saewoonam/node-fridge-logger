@@ -1,0 +1,15 @@
+version: '3.1'
+
+volumes: 
+  node_modules:
+  yarn-cache:
+
+services:
+  web:
+    image: node:alpine
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - 'yarn-cache:/usr/local/share/.cache/yarn/'
+    command: sh -c "cd app; yarn; yarn run dev"
+
