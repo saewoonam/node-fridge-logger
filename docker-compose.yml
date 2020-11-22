@@ -5,6 +5,13 @@ volumes:
   yarn-cache:
 
 services:
+  redis:
+    image: redis:alpine
+    container_name: local-redis
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
   web:
     image: node:alpine
     volumes:
