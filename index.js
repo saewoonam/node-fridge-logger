@@ -4,8 +4,19 @@ const redis = require("redis")
 const Fuse = require('fuse.js')
 const fetch = require('node-fetch');
 
-redis_client = redis.createClient();
-redis_pub = redis.createClient();
+const { PORT, NODE_ENV, REDIS_SERVER } = process.env;
+const dev = NODE_ENV === 'development';
+
+let redis_server = REDIS_SERVER
+if (typeof(redis_server) == 'undefined') {
+    redis_server = 'localhost'
+} else {
+    redis_server = REDIS_SERVER;
+}
+console.log("REDIS_SERVER:  ", redis_server);
+
+redis_client = redis.createClient(6379, redis_server);
+redis_pub = redis.createClient(6379, redis_server);
 const url_all = 'http://localhost:5000/fridge/all'
 const url_keys = 'http://localhost:5000/fridge/keys'
 let db = new sqlite3('fridge_data.db');
